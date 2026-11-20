@@ -2,6 +2,8 @@
 #include <string>
 #include <cstdlib>
 using namespace std;
+int score = 0;
+string level1(string s);//level1 = reversed string
 
 // ---------- MENU ----------
 void showTitle() {
@@ -76,4 +78,13 @@ int main() {
     cout << "You win!\n";
     system("pause");
     return 0;
+}
+string level1(string s) {
+    int left = 0;
+    int right = s.length() - 1;
+    while (left < right) {
+        swap(s[left], s[right]);
+        left++;
+        right++;
+    }
 }
