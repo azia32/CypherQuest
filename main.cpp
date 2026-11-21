@@ -3,7 +3,24 @@
 #include <cstdlib>
 using namespace std;
 int score = 0;
-string level1(string s);//level1 = reversed string
+string lowercase(string s) {
+    for (char& c : s) { //means that each letter "char &c" is looked at and this occurs for lengh of string 
+        c = tolower(static_cast<unsigned char>(c)); //static_cast converts input into safe range for tolower
+   
+    }
+    return s; //unsigned char allows letters with negative ASCI values to be ignored
+}
+string reversestring(string s) { // used for level 1
+    int left = 0;
+    int right = s.length() - 1;
+    while (left < right) {
+        swap(s[left], s[right]);
+        left++;
+        right--;
+
+    }
+    return s;
+}
 
 // ---------- MENU ----------
 void showTitle() {
@@ -49,7 +66,26 @@ int mainMenu() {
 
 // ---------- LEVELS ----------
 bool level1() {
-    
+    string original = "Hello";
+    string correct = reversestring(original); // will reverse the word hello
+    cout << "--------LEVEL 1--------" << endl;
+    cout << "GUESSES PER LEVEL = 5" << endl;
+    cout << "Word to Decrypt: " << correct << endl;
+    string guess;
+    for (int i = 0;i < 5;i++) {
+        cin >> guess;
+        
+            if (lowercase(guess) == lowercase(original)) {
+                cout << "CORRECT ! LEVEL 1 complete" << endl;
+                score = 25 - (5 * i);
+                cout << "SCORE: " << score << endl;
+                return true;
+            }
+          
+                cout << "Incorrect! Guess again" << endl;
+                cout << "Guesses Remaining: " << 5 - (i+1) << endl;
+           }
+    cout << "OUT OF GUESSES! GAME OVER!" << endl;
     return false;
 }
 
@@ -78,13 +114,4 @@ int main() {
     cout << "You win!\n";
     system("pause");
     return 0;
-}
-string level1(string s) {
-    int left = 0;
-    int right = s.length() - 1;
-    while (left < right) {
-        swap(s[left], s[right]);
-        left++;
-        right++;
-    }
 }
