@@ -3,6 +3,7 @@
 #include <cstdlib>
 using namespace std;
 int score = 0;
+
 string lowercase(string s) {
     for (char& c : s) { //means that each letter "char &c" is looked at and this occurs for lengh of string 
         c = tolower(static_cast<unsigned char>(c)); //static_cast converts input into safe range for tolower
@@ -77,7 +78,7 @@ bool level1() {
         
             if (lowercase(guess) == lowercase(original)) {
                 cout << "CORRECT ! LEVEL 1 complete" << endl;
-                score = 25 - (5 * i);
+                score += 25 - (5 * i);
                 cout << "SCORE: " << score << endl;
                 return true;
             }
@@ -85,12 +86,65 @@ bool level1() {
                 cout << "Incorrect! Guess again" << endl;
                 cout << "Guesses Remaining: " << 5 - (i+1) << endl;
            }
-    cout << "OUT OF GUESSES! GAME OVER!" << endl;
+   
     return false;
 }
 
 bool level2() {
+    cout << "\n\n" << "Impressive! But let's see how long you can keep this up...." << endl;
+
+    const string CORRECT = "SECRET";
+    string guess;
+
+    cout << "--------LEVEL 2--------" << endl;
+    cout << "GUESSES PER LEVEL = 4" << endl;
+    cout << "Word to Decrypt: VHFUHW " << endl;
+    cout << "Cipher: Caesar";
+    cout << "Hint: shift is 3 :) \n";
+
+    for (int i = 0; i < 4; i++) {
+        cin >> guess;
+
+        if (lowercase(guess) == lowercase(CORRECT)) {
+            cout << "CORRECT ! LEVEL 2 complete" << endl;
+            score += 25 - (5 * i);;
+            cout << "SCORE: " << score << endl;
+            return true;
+        }
+
+        cout << "Incorrect! Guess again" << endl;
+        cout << "Guesses Remaining: " << 4 - (i + 1) << endl;
+    }
+  
     return false;
+}
+
+bool level3() {
+    cout << "\n\n" << "You're really good at this aren't you... Well, not for long..." << endl;
+
+        const string CORRECT = "CIPHER";
+    string guess;
+
+    cout << "--------LEVEL 2--------" << endl;
+    cout << "GUESSES PER LEVEL = 4" << endl;
+    cout << "Word to Decrypt: GMTLIV " << endl;
+    cout << "Cipher: Caesar";
+    cout << "Hint: Hint: The shift is less than 5 \n";
+
+
+    for (int i = 0; i < 4; i++) {
+        cin >> guess;
+
+        if (lowercase(guess) == lowercase(CORRECT)) {
+            cout << "CORRECT ! LEVEL 3 complete" << endl;
+            score += 25 - (5 * i);;
+            cout << "SCORE: " << score << endl;
+            return true;
+        }
+
+        cout << "Incorrect! Guess again" << endl;
+        cout << "Guesses Remaining: " << 4 - (i + 1) << endl;
+    }
 }
 
 // ---------- MAIN ----------
@@ -106,6 +160,12 @@ int main() {
     }
 
     if (!level2()) {
+        cout << "Game over.\n";
+        system("pause");
+        return 0;
+    }
+
+    if (!level3()) {
         cout << "Game over.\n";
         system("pause");
         return 0;
