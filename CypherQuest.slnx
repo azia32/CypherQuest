@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="CypherQuest.vcxproj" Id="35d033eb-a4a7-4d7a-8e16-7b928ea31cd2" />
+  <Project Path="CypherQuest.vcxproj" />
 </Solution>
