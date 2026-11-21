@@ -125,7 +125,7 @@ bool level3() {
         const string CORRECT = "CIPHER";
     string guess;
 
-    cout << "--------LEVEL 2--------" << endl;
+    cout << "--------LEVEL 3--------" << endl;
     cout << "GUESSES PER LEVEL = 4" << endl;
     cout << "Word to Decrypt: GMTLIV " << endl;
     cout << "Cipher: Caesar";
