@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <cstdlib>
+#include <cctype>
 using namespace std;
 int score = 0;
 
@@ -23,7 +24,17 @@ string reversestring(string s) { // used for level 1
     return s;
 }
 
-// ---------- MENU ----------
+string caesarLeft(string s, int shift) {
+    for (char& c : s) {
+        if (isalpha(static_cast<unsigned char>(c))) {
+            char base = isupper(static_cast<unsigned char>(c)) ? 'A' : 'a';
+            c = static_cast<char>(base + (c - base - shift + 26) % 26);
+        }
+    }
+    return s;
+}
+
+// ---------- MENU & SUMMARY ----------
 void showTitle() {
     // R for raw text (outpouts as is)
     // used https://patorjk.com to get ASCII art
@@ -63,6 +74,27 @@ int mainMenu() {
         cin >> select;
     }
     return select;
+}
+
+string getRank(int finalScore, bool won) {
+    if (!won) {
+        if (finalScore >= 50) return "Field Operative";
+        if (finalScore >= 20) return "Novice Decoder";
+        return "Uninitiated";
+    }
+    if (finalScore >= 115) return "Master Cryptbreaker";
+    if (finalScore >= 90) return "Cipher Analyst";
+    if (finalScore >= 65) return "Codebreaker";
+    return "Survivor";
+}
+
+void showSummary(bool won) {
+    cout << "\n========================================\n";
+    cout << (won ? "           MISSION ACCOMPLISHED          \n" : "               GAME OVER                \n");
+    cout << "========================================\n";
+    cout << "Final Score : " << score << " / 125\n";
+    cout << "Rank        : " << getRank(score, won) << "\n";
+    cout << "========================================\n\n";
 }
 
 // ---------- LEVELS ----------
@@ -147,6 +179,75 @@ bool level3() {
     }
 }
 
+bool level4() {
+    cout << "\n\n" << "Getting clever now... let's flip the direction on you." << endl;
+
+    const string CORRECT = "SHADOW";
+    string encrypted = caesarLeft(CORRECT, 2); // QFYBMU (2 shifts to the left)
+    string guess;
+
+    cout << "--------LEVEL 4--------" << endl;
+    cout << "GUESSES PER LEVEL = 4" << endl;
+    cout << "Word to Decrypt: " << encrypted << " " << endl;
+    cout << "Cipher: Caesar";
+    cout << "Hint: Opposite shift direction (left instead of right), and the shift is less than 5 \n";
+
+    for (int i = 0; i < 4; i++) {
+        cin >> guess;
+
+        if (lowercase(guess) == lowercase(CORRECT)) {
+            cout << "CORRECT ! LEVEL 4 complete" << endl;
+            score += 25 - (5 * i);
+            cout << "SCORE: " << score << endl;
+            return true;
+        }
+
+        cout << "Incorrect! Guess again" << endl;
+        cout << "Guesses Remaining: " << 4 - (i + 1) << endl;
+    }
+
+    return false;
+}
+
+bool level5() {
+    cout << "\n\n" << "Final level. Every trick stacked together..." << endl;
+
+    const string CORRECT = "LOCK CODE";
+    string word1 = "LOCK";
+    string word2 = "CODE";
+
+    // Step 1: Last word comes first -> "CODE LOCK"
+    string swappedWords = word2 + " " + word1;
+    // Step 2: Invert each word -> "EDOC KCOL"
+    string invertedWords = reversestring(word2) + " " + reversestring(word1);
+    // Step 3: Caesar shift 1 to the left -> "DCNB JBNK"
+    string encrypted = caesarLeft(invertedWords, 1);
+    string guess;
+
+    cout << "--------LEVEL 5--------" << endl;
+    cout << "GUESSES PER LEVEL = 4" << endl;
+    cout << "Phrase to Decrypt: " << encrypted << " " << endl;
+    cout << "Cipher: Combined (Word Order + Word Invert + Caesar Left Shift)" << endl;
+    cout << "Hint: Last word comes first, each word is inverted, and letters use a Caesar shift of 1 to the left \n";
+
+    cin.ignore();
+    for (int i = 0; i < 4; i++) {
+        getline(cin, guess);
+
+        if (lowercase(guess) == lowercase(CORRECT)) {
+            cout << "CORRECT ! LEVEL 5 complete" << endl;
+            score += 25 - (5 * i);
+            cout << "SCORE: " << score << endl;
+            return true;
+        }
+
+        cout << "Incorrect! Guess again" << endl;
+        cout << "Guesses Remaining: " << 4 - (i + 1) << endl;
+    }
+
+    return false;
+}
+
 // ---------- MAIN ----------
 int main() {
     if (mainMenu() == 2) {
@@ -154,24 +255,36 @@ int main() {
     }
 
     if (!level1()) {
-        cout << "Game over.\n";
+        showSummary(false);
         system("pause");
         return 0;
     }
 
     if (!level2()) {
-        cout << "Game over.\n";
+        showSummary(false);
         system("pause");
         return 0;
     }
 
     if (!level3()) {
-        cout << "Game over.\n";
+        showSummary(false);
         system("pause");
         return 0;
     }
 
-    cout << "You win!\n";
+    if (!level4()) {
+        showSummary(false);
+        system("pause");
+        return 0;
+    }
+
+    if (!level5()) {
+        showSummary(false);
+        system("pause");
+        return 0;
+    }
+
+    showSummary(true);
     system("pause");
     return 0;
 }
