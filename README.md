@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 [README.md](https://github.com/user-attachments/files/35239421/README.md)
+=======
+>>>>>>> 3e5190f (final changes with readme)
 # CRYPTGAME
 
 A text-based code-breaking game written in C++. The player decrypts a coded word in each of five levels. Each level is harder than the one before it.

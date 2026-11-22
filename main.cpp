@@ -177,6 +177,7 @@ bool level3() {
         cout << "Incorrect! Guess again" << endl;
         cout << "Guesses Remaining: " << 4 - (i + 1) << endl;
     }
+    return false;
 }
 
 bool level4() {
